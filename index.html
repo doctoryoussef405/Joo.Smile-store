@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="shortcut icon" href="tooth.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Joo Smile | Oral Care Store</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html {
+      scroll-padding-top: 90px;
+    }
+    body {
+      font-family: 'Cairo', sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+    }
+    .card {
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+    .navbar {
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .navbar.scrolled {
+      background-color: #0066ff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      max-width: 500px;
+      width: 90%;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+    }
+    .cart-count {
+      background: #ff4d4f;
+      color: white;
+      border-radius: 50%;
+      padding: 2px 6px;
+      font-size: 12px;
+      position: absolute;
+      top: -10px;
+      right: -10px;
+    }
+    .object-cover {
+      object-fit: contain;
+    }
+    .top-section {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      margin-bottom: 24px;
+    }
+    #notification {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #0066ff;
+      color: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      z-index: 1000;
+    }
+    #notification.show {
+      opacity: 1;
+    }
+    @media (max-width: 768px) {
+      nav ul {
+        display: none;
+        flex-direction: column;
+        background: #0066ff;
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        padding: 20px;
+        border-radius: 12px;
+      }
+      nav.active ul {
+        display: flex;
+      }
+      .top-section {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      margin-bottom: 24px;
+       }
+      .top-inner {
+        width: 90%;
+        max-width: 1000px;
+        text-align: center;
+       }
+      }
+      @media (min-width: 768px) {
+        .top-inner {
+          width: 70%;
+        }
+      }
+  </style>
+</head>
+<body>
+  <header id="navbar" class="navbar text-white fixed w-full top-0 z-50">
+    <div class="flex justify-between items-center p-4 max-w-6xl mx-auto">
+      <a href="#top" class="flex items-center gap-4">
+        <h1 class="text-2xl font-bold">Joo Smile</h1>
+      </a>
+      <nav>
+        <button class="md:hidden" onclick="toggleMenu()">
+          <i class="fas fa-bars text-white"></i>
+        </button>
+        <ul class="hidden md:flex gap-6">
+          <li><a href="#products" class="hover:text-gray-300">Shop</a></li>
+          <li><a href="#about" class="hover:text-gray-300">About</a></li>
+          <li><a href="#contact" class="hover:text-gray-300">Contact</a></li>
+          <li>
+            <a href="#cart" class="relative">
+              <i class="fas fa-shopping-cart"></i>
+              <span id="cart-count" class="cart-count">0</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+ <section id="top" class="top-section py-16 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="flex flex-col md:flex-row items-center justify-between mx-auto w-full gap-8">
+      <div class="md:w-1/2 text-left">
+        <h1 class="text-4xl font-bold mb-4">Joo Smile – Dental Essentials</h1>
+        <p class="text-lg leading-relaxed">
+          Precision tools. Trusted quality.  
+          Built for students, dentists, and anyone who takes oral care seriously.  
+          Discover the products trusted by future professionals.
+        </p>
+      </div>
+      <div class="md:w-1/2">
+        <img src="20250501_201902.png" alt="Joo Smile" class="rounded-xl object-cover w-full max-w-md mx-auto shadow-lg">
+      </div>
+    </div>
+  </div>
+</section>
+      
+
+  <!-- Offers Section (Toggleable via Comments) -->
+<!-- <section id="offers" class="py-16 bg-gray-100">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center text-blue-700 mb-8" data-aos="fade-up">Soon in Smaile</h2>
+      <div class="grid md:grid-cols-1 gap-6">
+        <div class="card p-6" data-aos="fade-up">
+          <h3 class="text-xl font-bold text-center text-blue-600">Joo Smaile Bag</h3>
+          <div class="grid md:grid-cols-2 gap-6 m-8">
+             <img  src="bag.jpg" alt="bag boy." class="w-80 rounded-xl object-cover max-w-md mx-auto shadow-lg">
+             <img src="bag0.jpg" alt="bag girl" class="w-80 rounded-xl object-cover max-w-md mx-auto shadow-lg">
+           </div>
+          <p>Coming soon: The Only Bag You'll Ever Need</p>
+        </div>
+       <div class="card p-6" data-aos="fade-up" data-aos-delay="100">
+          <h3 class="text-xl font-bold text-blue-600">Free Shipping</h3>
+          <p>On orders above $50, valid till end of the week.</p>
+        </div>
+        <div class="card p-6" data-aos="fade-up" data-aos-delay="200">
+          <h3 class="text-xl font-bold text-blue-600">Bundle Offer</h3>
+          <p>Buy a dental toolset and get a free toothbrush.</p>
+        </div> 
+      </div>
+    </div>
+  </section> -->
+<div id="notification"></div>
+  <section id="products" class="py-16">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center text-blue-700 mb-8" data-aos="fade-up">Our Products</h2>
+      <input type="text" id="product-search" onkeyup="filterProducts()" placeholder="Search for a product..." class="mt-6 mb-6 w-full p-3 rounded text-black focus:outline-none">
+      <div id="products-container" class="grid md:grid-cols-3 gap-6">
+
+    <div class="card p-6 cursor-pointer" data-product-id="1"  data-aos="fade-up" onclick="showProductModal(1)">
+      <img src="1.jpg" alt="Dental Mirror" class="w-full h-40 object-contain">
+      <h3 class="text-xl font-bold mt-4">Dental Mirror</h3>
+      <p class="text-gray-600">L.E. 40.00</p>
+    </div>
+    <div class="card p-6 cursor-pointer" data-product-id="2"  data-aos="fade-up" onclick="showProductModal(2)">
+      <img src="2.jpg" alt="Explorer Probe" class="w-full h-40 object-contain">
+      <h3 class="text-xl font-bold mt-4">Explorer Probe</h3>
+      <p class="text-gray-600">L.E. 40.00</p>
+    </div>
+    <div class="card p-6 cursor-pointer" data-product-id="3"  data-aos="fade-up" onclick="showProductModal(3)">
+      <img src="3.jpg" alt="Periodontal Probe" class="w-full h-40 object-contain">
+      <h3 class="text-xl font-bold mt-4">Periodontal Probe</h3>
+      <p class="text-gray-600">L.E. 00.00</p>
+    </div>
+    <div class="card p-6 cursor-pointer" data-product-id="4"  data-aos="fade-up" onclick="showProductModal(4)">
+      <img src="4.jpg" alt="Cotton Pliers/Tweezers" class="w-full h-40 object-contain">
+      <h3 class="text-xl font-bold mt-4">Cotton Pliers/Tweezers</h3>
+      <p class="text-gray-600">L.E. 00.00</p>
+    </div>
+    <div class="card p-6 cursor-pointer" data-product-id="5"  data-aos="fade-up" onclick="showProductModal(5)">
+      <img src="5.jpg" alt="Burs" class="w-full h-40 object-contain">
+      <h3 class="text-xl font-bold mt-4">Burs</h3>
+      <p class="text-gray-600">L.E. 00.00</p>
+    </div>
+    <div class="card p-6 cursor-pointer" data-product-id="6"  data-aos="fade-up" onclick="showProductModal(6)">
+      <img src="6.jpg" alt="Condenser/Plugger" class="w-full h-40 object-contain">
+      <h3 class="text-xl font-bold mt-4">Condenser/Plugger</h3>
+      <p class="text-gray-600">L.E. 00.00</p>
+    </div>
+    <div class="card p-6 cursor-pointer" data-product-id="7"  data-aos="fade-up" onclick="showProductModal(7)">
+      <img src="7.jpg" alt="Composite Gun" class="w-full h-40 object-contain">
+      <h3 class="text-xl font-bold mt-4">Composite Gun</h3>
+      <p class="text-gray-600">L.E. 1,200.00</p>
+    </div>
+    <div class="card p-6 cursor-pointer" data-product-id="8"  data-aos="fade-up" onclick="showProductModal(8)">
+      <img src="8.jpg" alt="Enamel Hatchet" class="w-full h-40 object-contain">
+      <h3 class="text-xl font-bold mt-4">Enamel Hatchet</h3>
+      <p class="text-gray-600">L.E. 00.00</p>
+    </div>
+    <div class="card p-6 cursor-pointer" data-product-id="9"  data-aos="fade-up" onclick="showProductModal(9)">
+      <img src="9.jpg" alt="Matrix Retainer" class="w-full h-40 object-contain">
+      <h3 class="text-xl font-bold mt-4">Matrix Retainer</h3>
+      <p class="text-gray-600">L.E. 500.00</p>
+    </div>
+    <div class="card p-6 cursor-pointer" data-product-id="10"  data-aos="fade-up" onclick="showProductModal(10)">
+      <img src="10.jpg" alt="Matrix Band" class="w-full h-40 object-contain">
+      <h3 class="text-xl font-bold mt-4">Matrix Band</h3>
+      <p class="text-gray-600">L.E. 00.00</p>
+    </div>
+    <div class="card p-6 cursor-pointer" data-product-id="11"  data-aos="fade-up" onclick="showProductModal(11)">
+      <img src="11.jpg" alt="Surgical Forceps" class="w-full h-40 object-contain">
+      <h3 class="text-xl font-bold mt-4">Surgical Forceps</h3>
+      <p class="text-gray-600">L.E. 00.00</p>
+    </div>
+    <div class="card p-6 cursor-pointer" data-product-id="12"  data-aos="fade-up" onclick="showProductModal(12)">
+      <img src="12.jpg" alt="Extraction Forceps" class="w-full h-40 object-contain">
+      <h3 class="text-xl font-bold mt-4">Extraction Forceps</h3>
+      <p class="text-gray-600">L.E. 00.00</p>
+    </div>
+    <div class="card p-6 cursor-pointer" data-product-id="13"  data-aos="fade-up" onclick="showProductModal(13)">
+      <img src="13.jpg" alt="Scalpel" class="w-full h-40 object-contain">
+      <h3 class="text-xl font-bold mt-4">Scalpel</h3>
+      <p class="text-gray-600">L.E. 00.00</p>
+    </div>
+    <div class="card p-6 cursor-pointer" data-product-id="14"  data-aos="fade-up" onclick="showProductModal(14)">
+      <img src="14.jpg" alt="Needle Holder" class="w-full h-40 object-contain">
+      <h3 class="text-xl font-bold mt-4">Needle Holder</h3>
+      <p class="text-gray-600">L.E. 00.00</p>
+    </div>
+    <div class="card p-6 cursor-pointer" data-product-id="15"  data-aos="fade-up" onclick="showProductModal(15)">
+      <img src="15.jpg" alt="Suture Thread" class="w-full h-40 object-contain">
+      <h3 class="text-xl font-bold mt-4">Suture Thread</h3>
+      <p class="text-gray-600">L.E. 00.00</p>
+    </div>
+    <div class="card p-6 cursor-pointer" data-product-id="16"  data-aos="fade-up" onclick="showProductModal(16)">
+      <img src="16.jpg" alt="Surgical Scissors" class="w-full h-40 object-contain">
+      <h3 class="text-xl font-bold mt-4">Surgical Scissors</h3>
+      <p class="text-gray-600">L.E. 00.00</p>
+    </div>
+    <div class="card p-6 cursor-pointer" data-product-id="17"  data-aos="fade-up" onclick="showProductModal(17)">
+      <img src="17.jpg" alt="Ultrasonic Scaler" class="w-full h-40 object-contain">
+      <h3 class="text-xl font-bold mt-4">Ultrasonic Scaler</h3>
+      <p class="text-gray-600">L.E. 15,000.00</p>
+    </div>
+    <div class="card p-6 cursor-pointer" data-product-id="18"  data-aos="fade-up" onclick="showProductModal(18)">
+      <img src="18.jpg" alt="Curette" class="w-full h-40 object-contain">
+      <h3 class="text-xl font-bold mt-4">Curette</h3>
+      <p class="text-gray-600">L.E. 00.00</p>
+    </div>
+    <div class="card p-6 cursor-pointer" data-product-id="19"  data-aos="fade-up" onclick="showProductModal(19)">
+      <img src="19.jpg" alt="Polishing Brush" class="w-full h-40 object-contain">
+      <h3 class="text-xl font-bold mt-4">Polishing Brush</h3>
+      <p class="text-gray-600">L.E. 00.00</p>
+    </div>
+    <div class="card p-6 cursor-pointer" data-product-id="20"  data-aos="fade-up" onclick="showProductModal(20)">
+      <img src="20.jpg" alt="Prophy Cup" class="w-full h-40 object-contain">
+      <h3 class="text-xl font-bold mt-4">Prophy Cup</h3>
+      <p class="text-gray-600">L.E. 00.00</p>
+    </div>
+    <div class="card p-6 cursor-pointer" data-product-id="21"  data-aos="fade-up" onclick="showProductModal(21)">
+      <img src="21.jpg" alt="Polishing Paste" class="w-full h-40 object-contain">
+      <h3 class="text-xl font-bold mt-4">Polishing Paste</h3>
+      <p class="text-gray-600">L.E. 00.00</p>
+    </div>
+    <div class="card p-6 cursor-pointer" data-product-id="22"  data-aos="fade-up" onclick="showProductModal(22)">
+      <img src="22.jpg" alt="Autoclave" class="w-full h-40 object-contain">
+      <h3 class="text-xl font-bold mt-4">Autoclave</h3>
+      <p class="text-gray-600">L.E. 90,000.00</p>
+    </div>
+    <div class="card p-6 cursor-pointer" data-product-id="23"  data-aos="fade-up" onclick="showProductModal(23)">
+      <img src="23.jpg" alt="Sterilization Cassettes" class="w-full h-40 object-contain">
+      <h3 class="text-xl font-bold mt-4">Sterilization Cassettes</h3>
+      <p class="text-gray-600">L.E. 00.00</p>
+    </div>
+    <div class="card p-6 cursor-pointer" data-product-id="24"  data-aos="fade-up" onclick="showProductModal(24)">
+      <img src="24.jpg" alt="Sterilization Pouches" class="w-full h-40 object-contain">
+      <h3 class="text-xl font-bold mt-4">Sterilization Pouches</h3>
+      <p class="text-gray-600">L.E. 00.00</p>
+    </div>
+    <div class="card p-6 cursor-pointer" data-product-id="25"  data-aos="fade-up" onclick="showProductModal(25)">
+      <img src="25.jpg" alt="High Volume Evacuator - HVE" class="w-full h-40 object-contain">
+      <h3 class="text-xl font-bold mt-4">High Volume Evacuator - HVE</h3>
+      <p class="text-gray-600">L.E. 00.00</p>
+    </div>
+    <div class="card p-6 cursor-pointer" data-product-id="26"  data-aos="fade-up" onclick="showProductModal(26)">
+      <img src="26.jpg" alt="Saliva Ejector" class="w-full h-40 object-contain">
+      <h3 class="text-xl font-bold mt-4">Saliva Ejector</h3>
+      <p class="text-gray-600">L.E. 00.00</p>
+    </div>
+    <div class="card p-6 cursor-pointer" data-product-id="27"  data-aos="fade-up" onclick="showProductModal(27)">
+      <img src="27.jpg" alt="Three-Way Syringe" class="w-full h-40 object-contain">
+      <h3 class="text-xl font-bold mt-4">Three-Way Syringe</h3>
+      <p class="text-gray-600">L.E. 00.00</p>
+    </div>
+    <div class="card p-6 cursor-pointer" data-product-id="28"  data-aos="fade-up" onclick="showProductModal(28)">
+        <img src="28.jpg" alt="Face Shield" class="w-full h-40 object-contain">
+        <h3 class="text-xl font-bold mt-4">Curing Light</h3>
+        <p class="text-gray-600">L.E. 00.00</p>
+    </div>
+    <div class="card p-6 cursor-pointer" data-product-id="29"  data-aos="fade-up" onclick="showProductModal(29)">
+        <img src="29.jpg" alt="Dental Chair" class="w-full h-40 object-contain">
+        <h3 class="text-xl font-bold mt-4">Rubber Dam</h3>
+        <p class="text-gray-600">L.E. 00.00</p>
+    </div>
+    <div class="card p-6 cursor-pointer" data-product-id="30"  data-aos="fade-up" onclick="showProductModal(30)">
+        <img src="30.jpg" alt="LED Curing Light" class="w-full h-40 object-contain">
+        <h3 class="text-xl font-bold mt-4">Cotton Holders</h3>
+        <p class="text-gray-600">L.E. 00.00</p>
+    </div>
+    <div class="card p-6 cursor-pointer" data-product-id="31"  data-aos="fade-up" onclick="showProductModal(31)">
+        <img src="31.jpg" alt="Motor strong 210" class="w-full h-40 object-contain">
+        <h3 class="text-xl font-bold mt-4">Motor strong 210</h3>
+        <p class="text-gray-600">L.E. 5,700.00</p>
+    </div>
+    <div class="card p-6 cursor-pointer" data-product-id="32"  data-aos="fade-up" onclick="showProductModal(32)">
+        <img src="32.jpg" alt="Push button low speed" class="w-full h-40 object-contain">
+        <h3 class="text-xl font-bold mt-4">Push button low speed</h3>
+        <p class="text-gray-600">L.E. 3,300.00</p>
+    </div>
+    </div>
+  </section>
+
+  <section id="about" class="py-16 bg-gray-100">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center text-blue-700 mb-8" data-aos="fade-up">About Us</h2>
+      <p class="text-lg leading-loose text-center" data-aos="fade-up" data-aos-delay="200">
+        Joo Smile is your trusted destination for all oral care needs, offering high-quality tools for dental students, professionals, and beauty enthusiasts.
+      </p>
+    </div>
+  </section>
+
+  <section id="cart" class="py-16">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center text-blue-700 mb-8" data-aos="fade-up">Your Cart</h2>
+      <div id="cart-items" class="space-y-4"></div>
+      <div class="text-right mt-6">
+        <p class="text-xl font-bold">Total: L.E. <span id="cart-total">0.00</span></p>
+        <button id="checkout-btn" class="mt-4 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700" onclick="checkout()">Proceed to Checkout</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="py-16 bg-gray-100">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <h2 class="text-3xl font-bold text-blue-700 mb-8" data-aos="fade-up">Contact Us</h2>
+      <div class="flex justify-center gap-6" data-aos="fade-up" data-aos-delay="200">
+        <a href="https://wa.me/201100186143" target="_blank"><i class="fab fa-whatsapp text-3xl text-blue-600 hover:text-blue-800"></i></a>
+        <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram text-3xl text-blue-600 hover:text-blue-800"></i></a>
+        <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook text-3xl text-blue-600 hover:text-blue-800"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="text-center text-sm py-6 text-white bg-blue-900">
+    <B><a href="https://wa.me/201030588214">By ENG Abdallah Hussein</a></B><br> &copy; 2025 Joo Smile. All Rights Reserved.
+  </footer>
+
+  <div id="product-modal" class="modal">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeProductModal()"><i class="fas fa-times"></i></span>
+      <img id="modal-image" src="" alt="" class="w-full h-60 object-contain">
+      <h3 id="modal-title" class="text-2xl font-bold mt-4"></h3>
+      <p id="modal-price" class="text-gray-600"></p>
+      <p id="modal-description" class="mt-2"></p>
+      <div class="flex justify-between mt-4">
+        <button class="text-blue-600" onclick="toggleFavorite(this)"><i class="far fa-heart"></i> Favorite</button>
+        <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" onclick="addToCartFromModal()">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    AOS.init(); 
+    const products = {
+      1: { id: 1, name: "Dental Mirror", price: 40.00, image: "1.jpg", description: "" },
+      2: { id: 2, name: "Explorer Probe", price: 40.00, image: "2.jpg", description: "" },
+      3: { id: 3, name: "Periodontal Probe", price: 0.00, image: "3.jpg", description: "" },
+      4: { id: 4, name: "Cotton Pliers/Tweezers", price: 0.00, image: "4.jpg", description: "" },
+      5: { id: 5, name: "Burs", price: 0.00, image: "5.jpg", description: "" },
+      6: { id: 6, name: "Condenser/Plugger", price: 0.00, image: "6.jpg", description: "" },
+      7: { id: 7, name: "Composite Gun", price: 1200.00, image: "7.jpg", description: "" },
+      8: { id: 8, name: "Enamel Hatchet", price: 0.00, image: "8.jpg", description: "" },
+      9: { id: 9, name: "Matrix Retainer", price: 500.00, image: "9.jpg", description: "" },
+      10: { id: 10, name: "Matrix Band", price: 0.00, image: "10.jpg", description: "" },
+      11: { id: 11, name: "Surgical Forceps", price: 0.00, image: "11.jpg", description: "" },
+      12: { id: 12, name: "Extraction Forceps", price: 0.00, image: "12.jpg", description: "" },
+      13: { id: 13, name: "Scalpel", price: 0.00, image: "13.jpg", description: "" },
+      14: { id: 14, name: "Needle Holder", price: 0.00, image: "14.jpg", description: "" },
+      15: { id: 15, name: "Suture Thread", price: 0.00, image: "15.jpg", description: "" },
+      16: { id: 16, name: "Surgical Scissors", price: 0.00, image: "16.jpg", description: "" },
+      17: { id: 17, name: "Ultrasonic Scaler", price: 15000, image: "17.jpg", description: "" },
+      18: { id: 18, name: "Curette", price: 0.00, image: "18.jpg", description: "" },
+      19: { id: 19, name: "Polishing Brush", price: 0.00, image: "19.jpg", description: "" },
+      20: { id: 20, name: "Prophy Cup", price: 0.00, image: "20.jpg", description: "" },
+      21: { id: 21, name: "Polishing Paste", price: 0.00, image: "21.jpg", description: "" },
+      22: { id: 22, name: "Autoclave", price: 90000.00, image: "22.jpg", description: "" },
+      23: { id: 23, name: "Sterilization Cassettes", price: 0.00, image: "23.jpg", description: "" },
+      24: { id: 24, name: "Sterilization Pouches", price: 0.00, image: "24.jpg", description: "" },
+      25: { id: 25, name: "High Volume Evacuator - HVE", price: 0.00, image: "25.jpg", description: "" },
+      26: { id: 26, name: "Saliva Ejector", price: 0.00, image: "26.jpg", description: "" },
+      27: { id: 27, name: "Three-Way Syringe", price: 0.00, image: "27.jpg", description: "" },
+      28: { id: 28, name: "Curing Light", price: 0.00, image: "28.jpg", description: "" },
+      29: { id: 29, name: "Rubber Dam", price: 0.00, image: "29.jpg", description: "" },
+      30: { id: 30, name: "Cotton Holders", price: 0.00, image: "30.jpg", description: "" },
+      31: { id: 31, name: "Motor strong 210", price: 5700.00, image: "31.jpg", description: "" },
+      32: { id: 32, name: "Push button low speed", price: 3300.00, image: "32.jpg", description: "" }
+    };
+
+    let cart = getCookie("cart") ? JSON.parse(getCookie("cart")) : [];
+
+    function setCookie(name, value, days) {
+      const expires = new Date(Date.now() + days * 864e5).toUTCString();
+      document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
+    }
+
+    function getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return decodeURIComponent(parts.pop().split(";").shift());
+      return null;
+    }
+
+    function updateCart() {
+      const cartItems = document.getElementById("cart-items");
+      const cartTotal = document.getElementById("cart-total");
+      const cartCount = document.getElementById("cart-count");
+      cartItems.innerHTML = "";
+      let total = 0;
+      cart.forEach(item => {
+        total += item.price * item.quantity;
+        const div = document.createElement("div");
+        div.className = "flex justify-between items-center p-4 bg-white rounded";
+        div.innerHTML = `
+          <div>
+            <h3 class="text-lg font-bold">${item.name}</h3>
+            <p>L.E. ${item.price} x ${item.quantity}</p>
+          </div>
+          <button class="text-red-600" onclick="removeFromCart(${item.id})"><i class="fas fa-trash"></i></button>
+        `;
+        cartItems.appendChild(div);
+      });
+      cartTotal.textContent = total.toFixed(2);
+      cartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+      setCookie("cart", JSON.stringify(cart), 7);
+    }
+
+    function addToCartFromModal() {
+      const productId = document.getElementById("product-modal").dataset.productId;
+      const product = products[productId];
+      const existingItem = cart.find(item => item.id == productId);
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        cart.push({ id: product.id, name: product.name, price: product.price, quantity: 1 });
+      }
+      updateCart();
+      showNotification("Successfully Added.");
+      closeProductModal();
+    }
+
+    function removeFromCart(id) {
+      cart = cart.filter(item => item.id !== id);
+      updateCart();
+        showNotification("Successfully Removed.");
+    }
+
+    function showProductModal(id) {
+      const product = products[id];
+      const modal = document.getElementById("product-modal");
+      modal.dataset.productId = id;
+      document.getElementById("modal-image").src = product.image;
+      document.getElementById("modal-title").textContent = product.name;
+      document.getElementById("modal-price").textContent = `L.E. ${product.price}`;
+      document.getElementById("modal-description").textContent = product.description;
+      modal.style.display = "flex";
+    }
+
+    function closeProductModal() {
+      document.getElementById("product-modal").style.display = "none";
+    }
+
+    function toggleFavorite(button) {
+      button.classList.toggle("text-red-600");
+      button.querySelector("i").classList.toggle("far");
+      button.querySelector("i").classList.toggle("fas");
+    }
+    function showNotification(message) {
+      const notification = document.getElementById("notification");
+      notification.textContent = message;
+      notification.classList.add("show");
+      setTimeout(() => {
+        notification.classList.remove("show");
+      }, 5000);
+    }
+
+    function checkout() {
+      if (cart.length === 0) {
+        showNotification("Your cart is empty!");
+        return;
+      }
+      let message = "Order Details:\n";
+      let total = 0;
+      cart.forEach(item => {
+        message += `${item.name} - Qty: ${item.quantity} - Price: L.E. ${(item.price * item.quantity).toFixed(2)}\n`;
+        total += item.price * item.quantity;
+      });
+      message += `Total: L.E. ${total.toFixed(2)}\nTotal Items: ${cart.reduce((sum, item) => sum + item.quantity, 0)}`;
+      const whatsappUrl = `https://wa.me/201100186143?text=${encodeURIComponent(message)}`;
+      window.open(whatsappUrl, "_blank");
+      cart = [];
+      updateCart();
+      showNotification("Order Confirmed Successfully");
+    }
+    function toggleMenu() {
+  document.querySelector("nav").classList.toggle("active");
+  }
+    window.addEventListener("scroll", () => {
+      const nav = document.getElementById("navbar");
+      if (window.scrollY > 50) {
+        nav.classList.add("scrolled");
+      } else {
+        nav.classList.remove("scrolled");
+      }
+    });
+      
+    updateCart();
+  </script>
+  <script>
+function resetAOS() {
+  const cards = document.querySelectorAll("#products-container .card");
+  cards.forEach(card => {
+    card.style.display = "inline-block"; 
+    card.setAttribute("data-aos", "fade-up"); 
+    card.classList.remove("aos-init", "aos-animate");
+  });
+  AOS.init({
+    duration: 800,
+    once: false
+  });
+  AOS.refreshHard();
+}
+
+  function filterProducts() {
+  const search = document.getElementById("product-search").value.toLowerCase();
+  const cards = document.querySelectorAll("#products-container .card");
+  let matchCount = 0;
+
+  if (search === "") {
+    resetAOS();
+    return;
+  }
+
+  cards.forEach(card => {
+    const name = card.querySelector("h3").textContent.toLowerCase();
+    if (name.includes(search)) {
+      card.style.display = "inline-block";
+      card.classList.remove("aos-init", "aos-animate");
+      card.setAttribute("data-aos", "");
+      matchCount++;
+    } else {
+      card.style.display = "none";
+    }
+  });
+
+  if (matchCount === 0) {
+    showNotification("No products match your search.");
+  }
+}
+  </script>
+</body>
+</html>
