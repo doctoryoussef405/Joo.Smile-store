@@ -1,0 +1,92 @@
+<section style="padding: 40px; background: #f9f9f9;">
+  <h2 style="text-align: center; font-size: 28px;">🛠️ أدوات الأسنان</h2>
+
+  <!-- أدوات الجراحة -->
+  <h3>🔪 أدوات الجراحة</h3>
+  <div class="tool-grid">
+    <div class="tool-card">مشرط جراحي</div>
+    <div class="tool-card">ملقط جراحي</div>
+    <div class="tool-card">خيوط جراحية</div>
+    <div class="tool-card">مقص جراحي</div>
+  </div>
+
+  <!-- أدوات الحرارة -->
+  <h3>🔥 أدوات الحرارة</h3>
+  <div class="tool-grid">
+    <div class="tool-card">محرار تعقيم</div>
+    <div class="tool-card">أوتوكلاف</div>
+    <div class="tool-card">سخان أدوات</div>
+  </div>
+
+  <!-- أدوات سنة تالتة -->
+  <h3>📘 أدوات سنة تالتة</h3>
+  <div class="tool-grid">
+    <div class="tool-card">Dental Mirror</div>
+    <div class="tool-card">Explorer</div>
+    <div class="tool-card">Scaler</div>
+    <div class="tool-card">Cotton Pliers</div>
+  </div>
+
+  <!-- أدوات سنة رابعة -->
+  <h3>📙 أدوات سنة رابعة</h3>
+  <div class="tool-grid">
+    <div class="tool-card">Cavity Prep Instruments</div>
+    <div class="tool-card">Matrix Bands</div>
+    <div class="tool-card">Amalgam Carrier</div>
+  </div>
+
+  <!-- أدوات سنة خامسة -->
+  <h3>📗 أدوات سنة خامسة</h3>
+  <div class="tool-grid">
+    <div class="tool-card">Root Canal Files</div>
+    <div class="tool-card">Apex Locator</div>
+    <div class="tool-card">Rubber Dam</div>
+  </div>
+
+  <!-- أدوات التعقيم -->
+  <h3>🧼 أدوات التعقيم</h3>
+  <div class="tool-grid">
+    <div class="tool-card">Ultrasonic Cleaner</div>
+    <div class="tool-card">Autoclave</div>
+    <div class="tool-card">Sterilization Pouches</div>
+  </div>
+
+  <!-- أدوات التقويم -->
+  <h3>🦷 أدوات التقويم</h3>
+  <div class="tool-grid">
+    <div class="tool-card">Brackets</div>
+    <div class="tool-card">Archwire</div>
+    <div class="tool-card">Ligature Cutter</div>
+    <div class="tool-card">Elastic Separators</div>
+  </div>
+</section>
+
+<style>
+  .tool-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 15px;
+    margin: 20px 0 40px 0;
+  }
+
+  .tool-card {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: 0.3s;
+  }
+
+  .tool-card:hover {
+    background: #e3f2fd;
+    transform: scale(1.05);
+    cursor: pointer;
+  }
+
+  h3 {
+    margin-top: 40px;
+    color: #444;
+  }
+</style>
